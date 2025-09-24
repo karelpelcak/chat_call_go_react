@@ -1,12 +1,18 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
+	"github.com/karelpelcak/chat_call/internal/api/router"
 	"github.com/karelpelcak/chat_call/internal/db"
 )
 
 func main() {
 	db.InitDB()
-	fmt.Println("Hello, world!")
+	db.Migration()
+	defer db.DB.Close();
+
+	r := router.SetupRouter()
+	log.Print("Server running on port :3333")
+	r.Run(":3333")
 }
